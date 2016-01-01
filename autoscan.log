@@ -1,0 +1,6 @@
+autoscan: warning: missing AC_CHECK_FUNCS([strerror]) wanted by: 
+	src/csp/csp-solver-agent.cpp:61
+	src/csp/csp-solver-agent.cpp:78
+	src/csp/csp-solver-agent.cpp:95
+autoscan: warning: missing AC_PROG_RANLIB wanted by: 
+	ltmain.sh:2455

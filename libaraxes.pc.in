@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE_NAME@
+Description: C++ Lock-free Data Structures Library
+Version: @PACKAGE_VERSION@
+URL: @PACKAGE_URL@
+Cflags: -I${includedir}/araxes
