@@ -4,7 +4,7 @@
 #include <algorithm>
 
 int main(int argc, char *argv[]) {
-        araxes::lockfree::deque<int> d;
+        araxes::shared::deque<int> d;
         d.push_front(5);
         d.push_front(6);
         d.push_front(7);
@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
         assert(d.size()==7);
         assert(d.front()==9);
         assert(d.back()==3);
+        assert(d.empty()!=true);
         for(const auto& i : d) {
                 std::cout << i << std::endl;
         }

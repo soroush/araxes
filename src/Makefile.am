@@ -21,6 +21,13 @@
 AM_CXXFLAGS = -pedantic -Wall -Werror
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS} -I m4
 
+lib_LTLIBRARIES = libaraxes.la
+
+libaraxes_la_SOURCES = \
+	shared_mutex.cpp
+
 araxes_includedir = $(includedir)/araxes
 araxes_include_HEADERS =  \
-	queue.hpp
+	deque.hpp \
+	deque.tpp \
+	shared_mutex.hpp

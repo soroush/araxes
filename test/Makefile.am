@@ -23,4 +23,6 @@ check_PROGRAMS = \
     deque_test
 deque_test_SOURCES = \
     deque.cpp
+deque_test_LDADD = \
+    ../src/libaraxes.la
 TESTS = $(check_PROGRAMS)

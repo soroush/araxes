@@ -114,7 +114,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am_deque_test_OBJECTS = deque.$(OBJEXT)
 deque_test_OBJECTS = $(am_deque_test_OBJECTS)
-deque_test_LDADD = $(LDADD)
+deque_test_DEPENDENCIES = ../src/libaraxes.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -509,6 +509,9 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(srcdir)/..
 deque_test_SOURCES = \
     deque.cpp
+
+deque_test_LDADD = \
+    ../src/libaraxes.la
 
 TESTS = $(check_PROGRAMS)
 all: all-am
