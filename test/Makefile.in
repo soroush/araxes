@@ -97,7 +97,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = deque_test$(EXEEXT)
+check_PROGRAMS = deque_test$(EXEEXT) vector_test$(EXEEXT)
 subdir = test
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp $(top_srcdir)/test-driver
@@ -114,11 +114,16 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am_deque_test_OBJECTS = deque.$(OBJEXT)
 deque_test_OBJECTS = $(am_deque_test_OBJECTS)
+deque_test_LDADD = $(LDADD)
 deque_test_DEPENDENCIES = ../src/libaraxes.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_vector_test_OBJECTS = vector.$(OBJEXT)
+vector_test_OBJECTS = $(am_vector_test_OBJECTS)
+vector_test_LDADD = $(LDADD)
+vector_test_DEPENDENCIES = ../src/libaraxes.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -153,8 +158,26 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(deque_test_SOURCES)
-DIST_SOURCES = $(deque_test_SOURCES)
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_@AM_V@)
+am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_@AM_V@)
+am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
+SOURCES = $(deque_test_SOURCES) $(vector_test_SOURCES)
+DIST_SOURCES = $(deque_test_SOURCES) $(vector_test_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -507,11 +530,17 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(srcdir)/..
-deque_test_SOURCES = \
-    deque.cpp
+LDADD = \
+    ../src/libaraxes.la \
+    -lpthread
 
-deque_test_LDADD = \
-    ../src/libaraxes.la
+deque_test_SOURCES = \
+    deque.cpp \
+    prettyprint.hpp
+
+vector_test_SOURCES = \
+    vector.cpp \
+    prettyprint.hpp
 
 TESTS = $(check_PROGRAMS)
 all: all-am
@@ -562,6 +591,10 @@ deque_test$(EXEEXT): $(deque_test_OBJECTS) $(deque_test_DEPENDENCIES) $(EXTRA_de
 	@rm -f deque_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(deque_test_OBJECTS) $(deque_test_LDADD) $(LIBS)
 
+vector_test$(EXEEXT): $(vector_test_OBJECTS) $(vector_test_DEPENDENCIES) $(EXTRA_vector_test_DEPENDENCIES) 
+	@rm -f vector_test$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(vector_test_OBJECTS) $(vector_test_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -569,6 +602,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/deque.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vector.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -793,6 +827,13 @@ recheck: all $(check_PROGRAMS)
 deque_test.log: deque_test$(EXEEXT)
 	@p='deque_test$(EXEEXT)'; \
 	b='deque_test'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+vector_test.log: vector_test$(EXEEXT)
+	@p='vector_test$(EXEEXT)'; \
+	b='vector_test'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

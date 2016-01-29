@@ -75,6 +75,7 @@ araxes::shared::deque<T, Allocator>::~deque() {
 template<class T, class Allocator>
 araxes::shared::deque<T,Allocator>& araxes::shared::deque<T, Allocator>::operator=(const araxes::shared::deque<T,Allocator>& other) {
     exclusive_lock_t lock(this->_lock);
+    shared_lock_t other_lock(other._lock);
     _data = other._data;
     return *this;
 }
@@ -82,7 +83,8 @@ araxes::shared::deque<T,Allocator>& araxes::shared::deque<T, Allocator>::operato
 template<class T, class Allocator>
 araxes::shared::deque<T,Allocator>& araxes::shared::deque<T, Allocator>::operator=(araxes::shared::deque<T,Allocator>&& other) {
     exclusive_lock_t lock(this->_lock);
-    _data = other._data;
+    shared_lock_t other_lock(other._lock);
+    _data = std::move(other._data);
     return *this;
 }
 

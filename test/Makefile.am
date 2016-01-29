@@ -19,10 +19,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 AM_CPPFLAGS = -I$(srcdir)/..
+LDADD = \
+    ../src/libaraxes.la \
+    -lpthread
 check_PROGRAMS = \
-    deque_test
+    deque_test \
+    vector_test
 deque_test_SOURCES = \
-    deque.cpp
-deque_test_LDADD = \
-    ../src/libaraxes.la
+    deque.cpp \
+    prettyprint.hpp
+vector_test_SOURCES = \
+    vector.cpp \
+    prettyprint.hpp
 TESTS = $(check_PROGRAMS)
