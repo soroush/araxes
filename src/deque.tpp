@@ -201,6 +201,8 @@ araxes::shared::deque<T, Allocator>::crend() const noexcept {
 template<class T, class Allocator>
 typename araxes::shared::deque<T, Allocator>::size_type
 araxes::shared::deque<T, Allocator>::size() const noexcept {
+    // TODO: Check if no locks needed?
+    shared_lock_t lock(this->_lock);
     return _data.size();
 }
 

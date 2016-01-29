@@ -5,18 +5,21 @@
 #include <thread>
 #include "prettyprint.hpp"
 
-#define COUNT 1000ul
+#define COUNT 10000ul
 #define THREADS 50ul
 
-void workload_adder(araxes::shared::vector<int>& input) {
-    for(auto& x : input) {
-        std::this_thread::yield();
-        x += 1;
+typedef araxes::shared::vector<int> vector_type;  // Okay
+// typedef std::vector<int> vector_type;   // High probablity of segfault (or double-free)
+
+void workload_adder(vector_type& input) {
+    static int sequence = 0;
+    for(int i=0; i< COUNT/THREADS; ++i) {
+        input.push_back(sequence++);
     }
 }
 
 int main(int argc, char* argv[]) {
-    araxes::shared::vector<int> v(COUNT);
+    vector_type v;
     std::vector<std::thread> workers;
     for(int i=0; i<THREADS; ++i) {
         workers.emplace_back(workload_adder, std::ref(v));
@@ -24,12 +27,14 @@ int main(int argc, char* argv[]) {
     for(auto& t : workers ) {
         t.join();
     }
-    // vector must contain only 1:
-    int count = std::count(v.cbegin(), v.cend(), THREADS);
+    int count = v.size();
     std::cerr << "count= " << count << std::endl;
     std::cerr << "vector= " << v << std::endl;
     assert(count==COUNT);
 }
+
+
+
 
 
 

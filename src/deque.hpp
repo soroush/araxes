@@ -139,7 +139,7 @@ namespace araxes {
                 void     clear() noexcept;
             private:
                 std::deque<T> _data;
-                shared_mutex_t _lock;
+                mutable shared_mutex_t _lock;
         };
     }
 }

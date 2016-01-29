@@ -31,17 +31,17 @@
 
 namespace araxes {
 namespace shared {
-template<class T, class Allocator = std::allocator<std::atomic<T>>>
+template<class T, class Allocator = std::allocator<T>>
          class vector {
              public:
              // types:
-             typedef std::atomic<T> value_type;
+             typedef T value_type;
              typedef value_type& reference;
              typedef const value_type& const_reference;
-             typedef typename std::vector<std::atomic<T>,Allocator>::iterator iterator;
-             typedef typename std::vector<std::atomic<T>,Allocator>::const_iterator const_iterator;
-             typedef typename std::vector<std::atomic<T>,Allocator>::size_type size_type;
-             typedef typename std::vector<std::atomic<T>,Allocator>::difference_type difference_type;
+             typedef typename std::vector<T,Allocator>::iterator iterator;
+             typedef typename std::vector<T,Allocator>::const_iterator const_iterator;
+             typedef typename std::vector<T,Allocator>::size_type size_type;
+             typedef typename std::vector<T,Allocator>::difference_type difference_type;
              typedef Allocator allocator_type;
              typedef typename std::allocator_traits<Allocator>::pointer pointer;
              typedef typename std::allocator_traits<Allocator>::const_pointer const_pointer;
@@ -130,8 +130,8 @@ template<class T, class Allocator = std::allocator<std::atomic<T>>>
              void swap(vector<T,Allocator>&);
              void clear() noexcept;
              private:
-             std::vector<std::atomic<T>> _data;
-             shared_mutex_t _lock;
+             std::vector<T> _data;
+             mutable shared_mutex_t _lock;
 };
 }
 }
